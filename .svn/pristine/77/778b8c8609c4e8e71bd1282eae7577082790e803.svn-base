@@ -1,0 +1,124 @@
+﻿@using System.Web.UI.WebControls
+@using System.Web.UI.WebControls.WebParts
+@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Branch Info Details";
+}
+
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+</style>
+
+<div style="width:90%; margin:0 auto" class="tablecontainer table-responsive">
+    <a class="popup btn btn-primary" href="/Admin/BranchInfo/Save/0" style="margin-bottom:20px; margin-top:20px;">Add New Branch</a>
+    <table id="myDatatable" class="table table-striped table-bordered table-hover table-condensed" style="width: 98%">
+        <thead>
+            <tr>
+                <th>Branch Name</th>
+                <th>Company Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Fax</th>
+                <th>Email</th>
+                <th>Trade License</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        
+        var oTable = $('#myDatatable').DataTable({
+            "ajax": {
+
+                "url": '/BranchInfo/GetAllBranchInfo',
+                "type": "get",
+                "datatype": "json"
+            },
+
+            "columns": [
+                { "data": "BranchName", "autoWidth": true },
+                { "data": "CompanyName", "autoWidth": true },
+                { "data": "Address", "autoWidth": true },
+                { "data": "Phone", "autoWidth": true },
+                { "data": "Fax", "autoWidth": true },
+                { "data": "Email", "autoWidth": true },
+                { "data": "TradeLicense", "autoWidth": true },
+                {
+                    "data": "BranchId",
+                    "width": "50px",
+                    "render": function (data) {
+                        return '<a class="popup" href="/Admin/BranchInfo/Edit/' + data + '">Edit</a>';
+                    }
+                },
+                {
+                    "data": "BranchId",
+                    "width": "50px",
+                    "render": function (data) {
+                        return '<a class="popup" href="/Admin/BranchInfo/Delete/' + data + '">Delete</a>';
+                    }
+                }
+            ]
+        });
+        $('.tablecontainer').on('click', 'a.popup', function (e) {
+            e.preventDefault();
+            OpenPopup($(this).attr('href'));
+        });
+
+        function OpenPopup(pageUrl) {
+            var $pageContent = $('<div/>');
+            $pageContent.load(pageUrl, function () {
+                $('#popupForm', $pageContent).removeData('validator');
+                $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse('form');
+
+            });
+
+            $dialog = $('<div class="popupWindow" style="overflow:auto; padding:10px 30px;"></div>')
+                .html($pageContent)
+                .dialog({
+                    draggable: true,
+                    autoOpen: false,
+                    resizable: true,
+                    model: true,
+
+                    title: '@ViewBag.Title',
+                    height: '600',
+                    width: '525',
+
+                    close: function () {
+
+                        $dialog.dialog('destroy').remove();
+                    }
+                });
+
+            $('.popupWindow').on('submit', '#popupForm', function (e) {
+                var url = $('#popupForm')[0].action;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#popupForm').serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            $dialog.dialog('close');
+                            oTable.ajax.reload();
+                        }
+                    }
+                });
+
+                e.preventDefault();
+            });
+
+            $dialog.dialog('open');
+        }
+    })
+</script>

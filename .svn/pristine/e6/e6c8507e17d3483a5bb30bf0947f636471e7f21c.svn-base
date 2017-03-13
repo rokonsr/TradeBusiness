@@ -1,0 +1,214 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+using System.Text;
+using TradeBusiness.Areas.Admin.Models;
+using TradeBusiness.DAL;
+
+namespace TradeBusiness.Areas.Admin.BLL
+{
+    //created by ataur
+    public class AdminUserBLL
+    {
+        private IDataAccess objDataAccess;
+        private DbCommand objDbCommand;
+        private void BuildModelForAdminUser(DbDataReader objDataReader, AdminUser objAdminUser)
+        {
+            DataTable objDataTable = objDataReader.GetSchemaTable();
+            foreach (DataRow dr in objDataTable.Rows)
+            {
+                String column = dr.ItemArray[0].ToString();
+                switch (column)
+                {
+                    case "AdminUserId":
+                        if (!Convert.IsDBNull(objDataReader["AdminUserId"]))
+                        {
+                            objAdminUser.AdminUserId = Convert.ToByte(objDataReader["AdminUserId"]);
+                        }
+                        break;
+                    case "AdminUsername":
+                        if (!Convert.IsDBNull(objDataReader["AdminUsername"]))
+                        {
+                            objAdminUser.AdminUsername = objDataReader["AdminUsername"].ToString();
+                        }
+                        break;
+                    case "AdminPassword":
+                        if (!Convert.IsDBNull(objDataReader["AdminPassword"]))
+                        {
+                            objAdminUser.AdminPassword = objDataReader["AdminPassword"].ToString();
+                        }
+                        break;
+                    case "UserRole":
+                        if (!Convert.IsDBNull(objDataReader["UserRole"]))
+                        {
+                            objAdminUser.UserRole = Convert.ToByte(objDataReader["UserRole"].ToString());
+                        }
+                        break;
+                    case "UserRoleName":
+                        if (!Convert.IsDBNull(objDataReader["UserRoleName"]))
+                        {
+                            objAdminUser.UserRoleName = objDataReader["UserRoleName"].ToString();
+                        }
+                        break;
+                    case "EmailAddress":
+                        if (!Convert.IsDBNull(objDataReader["EmailAddress"]))
+                        {
+                            objAdminUser.EmailAddress = objDataReader["EmailAddress"].ToString();
+                        }
+                        break;
+                    case "MaxCompany":
+                        if (!Convert.IsDBNull(objDataReader["MaxCompany"]))
+                        {
+                            objAdminUser.MaxCompany = Convert.ToByte(objDataReader["MaxCompany"].ToString());
+                        }
+                        break;
+                    case "MaxBranch":
+                        if (!Convert.IsDBNull(objDataReader["MaxBranch"]))
+                        {
+                            objAdminUser.MaxBranch = Convert.ToByte(objDataReader["MaxBranch"].ToString());
+                        }
+                        break;
+                    case "IsActive":
+                        if (!Convert.IsDBNull(objDataReader["IsActive"]))
+                        {
+                            objAdminUser.IsActive = Convert.ToBoolean(objDataReader["IsActive"].ToString());
+                        }
+                        break;
+                    case "CreatedBy":
+                        if (!Convert.IsDBNull(objDataReader["CreatedBy"]))
+                        {
+                            objAdminUser.CreatedBy = Convert.ToInt16(objDataReader["CreatedBy"]);
+                        }
+                        break;
+                    case "CreatedDate":
+                        if (!Convert.IsDBNull(objDataReader["CreatedDate"]))
+                        {
+                            objAdminUser.CreatedDate = Convert.ToDateTime(objDataReader["CreatedDate"].ToString());
+                        }
+                        break;
+                    case "UpdatedBy":
+                        if (!Convert.IsDBNull(objDataReader["UpdatedBy"]))
+                        {
+                            objAdminUser.UpdatedBy = Convert.ToInt16(objDataReader["UpdatedBy"].ToString());
+                        }
+                        break;
+                    case "UpdatedDate":
+                        if (!Convert.IsDBNull(objDataReader["UpdatedDate"]))
+                        {
+                            objAdminUser.UpdatedDate = Convert.ToDateTime(objDataReader["UpdatedDate"].ToString());
+                        }
+                        break;
+                    case "SortedBy":
+                        if (!Convert.IsDBNull(objDataReader["SortedBy"]))
+                        {
+                            objAdminUser.SortedBy = Convert.ToByte(objDataReader["SortedBy"].ToString());
+                        }
+                        break;
+                    case "Remarks":
+                        if (!Convert.IsDBNull(objDataReader["Remarks"]))
+                        {
+                            objAdminUser.Remarks = objDataReader["Remarks"].ToString();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        //Save Admin User Information
+        public string CreateAdminUser(AdminUser objAdminUser)
+        {
+            int noRowCount = 0;
+
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.Serializable);
+            objDbCommand.AddInParameter("AdminUsername", objAdminUser.AdminUsername);
+            objDbCommand.AddInParameter("AdminPassword", SHA512PasswordGenerator(objAdminUser.AdminPassword));
+            objDbCommand.AddInParameter("UserRole", objAdminUser.UserRole);
+            objDbCommand.AddInParameter("EmailAddress", objAdminUser.EmailAddress);
+            objDbCommand.AddInParameter("MaxCompany", objAdminUser.MaxCompany);
+            objDbCommand.AddInParameter("MaxBranch", objAdminUser.MaxBranch);
+            objDbCommand.AddInParameter("CreatedBy", SessionUtility.TBSessionContainer.UserID);
+
+            try
+            {
+                noRowCount = objDataAccess.ExecuteNonQuery(objDbCommand, "[dbo].uspCreateAdminUser", CommandType.StoredProcedure);
+
+                if (noRowCount > 0)
+                {
+                    objDbCommand.Transaction.Commit();
+                    return "Save Successfully";
+                }
+                else
+                {
+                    objDbCommand.Transaction.Rollback();
+                    return "Save Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                objDbCommand.Transaction.Rollback();
+                throw new Exception("Database Error Occured", ex);
+            }
+            finally
+            {
+                objDataAccess.Dispose(objDbCommand);
+            }
+        }
+
+        //Get All Admin User Information from Db
+        public List<AdminUser> GetAllAdminUser()
+        {
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.ReadCommitted);
+            DbDataReader objDbDataReader = null;
+            List<AdminUser> objAdminUserList = new List<AdminUser>();
+            AdminUser objAdminUser;
+
+            try
+            {
+                objDbDataReader = objDataAccess.ExecuteReader(objDbCommand, "[dbo].uspGetAllAdminUserList", CommandType.StoredProcedure);
+
+                if (objDbDataReader.HasRows)
+                {
+                    while (objDbDataReader.Read())
+                    {
+                        objAdminUser = new AdminUser();
+                        this.BuildModelForAdminUser(objDbDataReader, objAdminUser);
+                        objAdminUserList.Add(objAdminUser);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error : " + ex.Message);
+            }
+            finally
+            {
+                if (objDbDataReader != null)
+                {
+                    objDbDataReader.Close();
+                }
+                objDataAccess.Dispose(objDbCommand);
+            }
+
+            return objAdminUserList;
+        }
+
+        //Encrypt Password using SHA512 Algorithm
+        private string SHA512PasswordGenerator(string strInput)
+        {
+            SHA512 sha512 = new SHA512CryptoServiceProvider();
+            byte[] arrHash = sha512.ComputeHash(Encoding.UTF8.GetBytes(strInput));
+            StringBuilder sbHash = new StringBuilder();
+            for (int i = 0; i < arrHash.Length; i++)
+            {
+                sbHash.Append(arrHash[i].ToString("x2"));
+            }
+            return sbHash.ToString();
+        }
+    }
+}

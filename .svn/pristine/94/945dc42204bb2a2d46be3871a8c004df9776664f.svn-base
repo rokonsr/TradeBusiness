@@ -1,0 +1,61 @@
+﻿@model TradeBusiness.Areas.Admin.Models.UserInfoPartial
+
+@{
+    Layout = null;
+}
+
+
+<h3 style="color: red;">Edit Information.</h3>
+<hr />
+
+@using (Html.BeginForm("Edit", "UserInfo", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.UserId > 0)
+    {
+        @Html.HiddenFor(ui => ui.UserId)
+    }
+
+    <div class="form-group">
+        <label>Username</label>
+        @Html.TextBoxFor(ui => ui.Username, new { @class = "form-control" })
+        @Html.ValidationMessageFor(ui => ui.Username)
+    </div>
+
+    <div class="form-group">
+        <label>Branch Name</label>
+
+        <select class="form-control" id="BranchId" name="BranchId">
+            @{
+                foreach (var branch in @ViewBag.BranchNames)
+                {
+                    if (@branch.BranchId == @Model.BranchId)
+                    {
+                        <option value=@branch.BranchId selected="selected"> @branch.BranchName</option>
+                    }
+                    else
+                    {
+                        <option value=@branch.BranchId> @branch.BranchName</option>
+                    }
+
+                }
+            }
+        </select>
+
+        @Html.ValidationMessageFor(ui => ui.BranchId)
+    </div>
+
+    <div class="form-group">
+        <label>IsActive</label>
+        <select class="form-control" id="IsActive" name="IsActive">
+            @{
+                <option value=@Model.IsActive selected="selected">@Model.IsActive</option>
+            }
+        </select>
+
+    </div>
+
+    <div>
+        <input type="submit" value="Save" class="btn btn-primary"/>
+    </div>
+ }
+

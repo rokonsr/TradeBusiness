@@ -1,0 +1,157 @@
+﻿@model TradeBusiness.CompanyInfo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CompanyInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyLogo)
+        </dt>
+
+        <dd>
+            <img src="@Url.Action("ImageShow", "CompanyInfoes", new {CompanyId = Model.CompanyId})" width="80" height="80"/>
+       
+
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyPhone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyFax)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyFax)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TradeLicense)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TradeLicense)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TINCertificate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TINCertificate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BSTIApproval)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BSTIApproval)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VATRegNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VATRegNumber)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SortedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SortedBy)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.UserInfo.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserInfo.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserInfo1.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserInfo1.Username)
+        </dd>*@
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CompanyId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

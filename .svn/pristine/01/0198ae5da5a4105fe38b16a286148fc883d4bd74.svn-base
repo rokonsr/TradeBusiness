@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using TradeBusiness.Areas.Admin.BLL;
+using TradeBusiness.Areas.Admin.Models;
+
+namespace TradeBusiness.Areas.Admin.Controllers
+{
+    //created by ataur
+    public class UserInfoController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult GetUserInfo()
+        {
+            UserInfoBLL objUserInfoBll = new UserInfoBLL();
+            var list = objUserInfoBll.GetAllUserInfo().ToList();
+            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Save()
+        {
+            GetBranchList();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Save(UserInfo objUserInfo)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                UserInfoBLL objUserInfoBll = new UserInfoBLL();
+                objUserInfoBll.CreateUserInfo(objUserInfo);
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            UserInfoPartialBLL objUserInfoPartialBll = new UserInfoPartialBLL();
+            var userInfo = objUserInfoPartialBll.GetUserInfo(id);
+
+            GetBranchList();
+
+            return View(userInfo);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(UserInfoPartial objUserInfoPartial)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                UserInfoPartialBLL objUserInfoPartialBll = new UserInfoPartialBLL();
+                objUserInfoPartialBll.UpdateUserInfo(objUserInfoPartial);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        private void GetBranchList()
+        {
+            UserInfoBLL objUserInfoBll = new UserInfoBLL();
+            var branchList = objUserInfoBll.GetAllBranch();
+            ViewBag.BranchNames = branchList;
+        }
+    }
+}

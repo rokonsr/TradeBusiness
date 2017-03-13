@@ -1,0 +1,60 @@
+﻿using System.ComponentModel.DataAnnotations;
+using TradeBusiness.Models;
+
+namespace TradeBusiness.Areas.Admin.Models
+{
+    //created by Ataur
+    public class CompanyInfo : CommonModel
+    {
+        [Key]
+        public short CompanyId { get; set; }
+
+        [Required]
+        [Display(Name = "Company Name")]
+        [StringLength(100, MinimumLength = 1, ErrorMessage = "Company name cannot be longer than 100 characters.")]
+        public string CompanyName { get; set; }
+              
+        public short AdminUserId { get; set; }
+
+
+        [Display(Name = "Admin User Name")]
+        [StringLength(50, MinimumLength = 4, ErrorMessage = "Admin user name cannot be longer than 50 characters.")]
+        public string AdminUsername { get; set; }
+
+       // [Required]
+        [Display(Name = "Logo")]
+        public byte[] Logo { get; set; }
+
+
+        [Required]
+        [Display(Name = "Address")]
+        [StringLength(150, MinimumLength = 4, ErrorMessage = "Address cannot be longer than 150 characters.")]
+        public string Address { get; set; }
+
+
+        [Display(Name = "Phone")]
+        [StringLength(15, MinimumLength = 11, ErrorMessage = "Phone Number Must be at least 11 characters long.")]
+        [RegularExpression("^[0-9]+$", ErrorMessage = "Digits Only.")]
+        public string Phone { get; set; }
+
+
+        [Display(Name = "Fax")]
+        public string Fax { get; set; }
+
+
+        [Display(Name = "Email")]
+        [StringLength(99, ErrorMessage = "Email cannot be longer than 100 characters.")]
+        [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Must be a valid email")]
+        public string Email { get; set; }
+
+
+        [Display(Name = "Tin Certificate")]
+        [StringLength(50,MinimumLength = 4)]
+        public string TinCertificate { get; set; }
+
+
+        [Display(Name = "Vat Reg No")]
+        [StringLength(50, MinimumLength = 4)]
+        public string VatRegNumber { get; set; }
+    }
+}

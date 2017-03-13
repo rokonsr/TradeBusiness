@@ -1,0 +1,333 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Linq;
+using System.Web;
+using TradeBusiness.Areas.Admin.Models;
+using TradeBusiness.DAL;
+
+namespace TradeBusiness.Areas.Admin.BLL
+{
+    public class CompanyInfoBLL
+    {
+        private IDataAccess objDataAccess;
+        private DbCommand objDbCommand;
+
+        private void BuildModelForCompanyInfo(DbDataReader objDataReader, CompanyInfo objCompanyInfo)
+        {
+            DataTable objDataTable = objDataReader.GetSchemaTable();
+            foreach (DataRow dr in objDataTable.Rows)
+            {
+                String column = dr.ItemArray[0].ToString();
+                switch (column)
+                {
+                    case "CompanyId":
+                        if (!Convert.IsDBNull(objDataReader["CompanyId"]))
+                        {
+                            objCompanyInfo.CompanyId = Convert.ToInt16(objDataReader["CompanyId"]);
+                        }
+                        break;
+                    case "CompanyName":
+                        if (!Convert.IsDBNull(objDataReader["CompanyName"]))
+                        {
+                            objCompanyInfo.CompanyName = objDataReader["CompanyName"].ToString();
+                        }
+                        break;
+                    case "AdminUserId":
+                        if (!Convert.IsDBNull(objDataReader["AdminUserId"]))
+                        {
+                            objCompanyInfo.AdminUserId = Convert.ToInt16(objDataReader["AdminUserId"]);
+                        }
+                        break;
+                    case "AdminUsername":
+                        if (!Convert.IsDBNull(objDataReader["AdminUsername"]))
+                        {
+                            objCompanyInfo.AdminUsername = objDataReader["AdminUsername"].ToString();
+                        }
+                        break;
+                    case "Logo":
+                        if (!Convert.IsDBNull(objDataReader["Logo"]))
+                        {
+                            objCompanyInfo.Logo = Convert.FromBase64String(objDataReader["Logo"].ToString());
+                        }
+                        break;
+                    case "Address":
+                        if (!Convert.IsDBNull(objDataReader["Address"]))
+                        {
+                            objCompanyInfo.Address = objDataReader["Address"].ToString();
+                        }
+                        break;
+                    case "Phone":
+                        if (!Convert.IsDBNull(objDataReader["Phone"]))
+                        {
+                            objCompanyInfo.Phone = objDataReader["Phone"].ToString();
+                        }
+                        break;
+                    case "Fax":
+                        if (!Convert.IsDBNull(objDataReader["Fax"]))
+                        {
+                            objCompanyInfo.Fax = objDataReader["Fax"].ToString();
+                        }
+                        break;
+                    case "Email":
+                        if (!Convert.IsDBNull(objDataReader["Email"]))
+                        {
+                            objCompanyInfo.Email = objDataReader["Email"].ToString();
+                        }
+                        break;
+                    case "TinCertificate":
+                        if (!Convert.IsDBNull(objDataReader["TinCertificate"]))
+                        {
+                            objCompanyInfo.TinCertificate = objDataReader["TinCertificate"].ToString();
+                        }
+                        break;
+                    case "VatRegNumber":
+                        if (!Convert.IsDBNull(objDataReader["VatRegNumber"]))
+                        {
+                            objCompanyInfo.VatRegNumber = objDataReader["VatRegNumber"].ToString();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        public List<CompanyInfo> GetCompanyInfo()
+        {
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.ReadCommitted);
+            DbDataReader objDbDataReader = null;
+            List<CompanyInfo> objCompanyInfoList = new List<CompanyInfo>();
+            CompanyInfo objCompanyInfo;
+
+            try
+            {
+                objDbDataReader = objDataAccess.ExecuteReader(objDbCommand, "[dbo].uspGetCompanyInfoList", CommandType.StoredProcedure);
+
+                if (objDbDataReader.HasRows)
+                {
+                    while (objDbDataReader.Read())
+                    {
+                        objCompanyInfo = new CompanyInfo();
+                        this.BuildModelForCompanyInfo(objDbDataReader, objCompanyInfo);
+                        objCompanyInfoList.Add(objCompanyInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error : " + ex.Message);
+            }
+            finally
+            {
+                if (objDbDataReader != null)
+                {
+                    objDbDataReader.Close();
+                }
+                objDataAccess.Dispose(objDbCommand);
+            }
+            return objCompanyInfoList;
+        }
+
+        public List<AdminUser> GetAdminUserName()
+        {
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.ReadCommitted);
+            DbDataReader objDbDataReader = null;
+            List<AdminUser> objAdminUserNameList = new List<AdminUser>();
+            AdminUser objAdminUserName;
+
+            try
+            {
+                objDbDataReader = objDataAccess.ExecuteReader(objDbCommand, "[dbo].uspGetAdminUserNameList", CommandType.StoredProcedure);
+
+                if (objDbDataReader.HasRows)
+                {
+                    while (objDbDataReader.Read())
+                    {
+                        objAdminUserName = new AdminUser();
+                        objAdminUserName.AdminUserId = Convert.ToInt16(objDbDataReader["AdminUserId"]);
+                        objAdminUserName.AdminUsername = objDbDataReader["AdminUsername"].ToString();
+                        objAdminUserNameList.Add(objAdminUserName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error : " + ex.Message);
+            }
+            finally
+            {
+                if (objDbDataReader != null)
+                {
+                    objDbDataReader.Close();
+                }
+                objDataAccess.Dispose(objDbCommand);
+            }
+
+            return objAdminUserNameList;
+        }
+
+        public string SaveCompanyInfo(CompanyInfo objCompanyInfo)
+        {
+            int noRowCount = 0;
+
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.Serializable);
+            objDbCommand.AddInParameter("CompanyName", objCompanyInfo.CompanyName);
+            objDbCommand.AddInParameter("AdminUserId", objCompanyInfo.AdminUserId);
+            objDbCommand.AddInParameter("Logo", objCompanyInfo.Logo);
+            objDbCommand.AddInParameter("Address", objCompanyInfo.Address);
+            objDbCommand.AddInParameter("Phone", objCompanyInfo.Phone);
+            objDbCommand.AddInParameter("Fax", objCompanyInfo.Fax);
+            objDbCommand.AddInParameter("Email", objCompanyInfo.Email);
+            objDbCommand.AddInParameter("TinCertificate", objCompanyInfo.TinCertificate);
+            objDbCommand.AddInParameter("VatRegNumber", objCompanyInfo.VatRegNumber);
+
+            try
+            {
+                noRowCount = objDataAccess.ExecuteNonQuery(objDbCommand, "[dbo].uspCreateCompanyInfo", CommandType.StoredProcedure);
+
+                if (noRowCount > 0)
+                {
+                    objDbCommand.Transaction.Commit();
+                    return "Save Successfully";
+                }
+                else
+                {
+                    objDbCommand.Transaction.Rollback();
+                    return "Save Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                objDbCommand.Transaction.Rollback();
+                throw new Exception("Database Error Occured", ex);
+            }
+            finally
+            {
+                objDataAccess.Dispose(objDbCommand);
+            }
+        }
+
+        public CompanyInfo GetCompanyInfo(int companyId)
+        {
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.ReadCommitted);
+            DbDataReader objDbDataReader = null;
+
+            List<CompanyInfo> objCompanyInfoList = new List<CompanyInfo>();
+
+            CompanyInfo objCompanyInfo = new CompanyInfo();
+
+            try
+            {
+                objDbCommand.AddInParameter("CompanyId", companyId);
+                objDbDataReader = objDataAccess.ExecuteReader(objDbCommand, "[dbo].[uspGetCompanyInfo]", CommandType.StoredProcedure);
+
+                if (objDbDataReader.HasRows)
+                {
+                    while (objDbDataReader.Read())
+                    {
+                        objCompanyInfo = new CompanyInfo();
+                        this.BuildModelForCompanyInfo(objDbDataReader, objCompanyInfo);
+
+                        objCompanyInfoList.Add(objCompanyInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error : " + ex.Message);
+            }
+            finally
+            {
+                if (objDbDataReader != null)
+                {
+                    objDbDataReader.Close();
+                }
+                objDataAccess.Dispose(objDbCommand);
+            }
+
+            return objCompanyInfo;
+        }
+        public string UpdateCompanyInfo(CompanyInfo objCompanyInfo)
+        {
+            int noRowCount = 0;
+
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.Serializable);
+            objDbCommand.AddInParameter("CompanyId", objCompanyInfo.CompanyId);
+            objDbCommand.AddInParameter("CompanyName", objCompanyInfo.CompanyName);
+            objDbCommand.AddInParameter("AdminUserId", objCompanyInfo.AdminUserId);
+            objDbCommand.AddInParameter("Logo", objCompanyInfo.Logo);
+            objDbCommand.AddInParameter("Address", objCompanyInfo.Address);
+            objDbCommand.AddInParameter("Phone", objCompanyInfo.Phone);
+            objDbCommand.AddInParameter("Fax", objCompanyInfo.Fax);
+            objDbCommand.AddInParameter("Email", objCompanyInfo.Email);
+            objDbCommand.AddInParameter("TinCertificate", objCompanyInfo.TinCertificate);
+            objDbCommand.AddInParameter("VatRegNumber", objCompanyInfo.VatRegNumber);
+
+            try
+            {
+                noRowCount = objDataAccess.ExecuteNonQuery(objDbCommand, "[dbo].uspUpdateCompanyInfo", CommandType.StoredProcedure);
+
+                if (noRowCount > 0)
+                {
+                    objDbCommand.Transaction.Commit();
+                    return "Save Successfully";
+                }
+                else
+                {
+                    objDbCommand.Transaction.Rollback();
+                    return "Save Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                objDbCommand.Transaction.Rollback();
+                throw new Exception("Database Error Occured", ex);
+            }
+            finally
+            {
+                objDataAccess.Dispose(objDbCommand);
+            }
+        }
+
+        public string DeleteCompanyInfo(int companyId)
+        {
+            int noRowCount = 0;
+
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.Serializable);
+            objDbCommand.AddInParameter("CompanyId", companyId);
+
+            try
+            {
+                noRowCount = objDataAccess.ExecuteNonQuery(objDbCommand, "[dbo].uspDeleteCompanyInfo", CommandType.StoredProcedure);
+
+                if (noRowCount > 0)
+                {
+                    objDbCommand.Transaction.Commit();
+                    return "Delete Successfully";
+                }
+                else
+                {
+                    objDbCommand.Transaction.Rollback();
+                    return "Delete Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                objDbCommand.Transaction.Rollback();
+                throw new Exception("Database Error Occured", ex);
+            }
+            finally
+            {
+                objDataAccess.Dispose(objDbCommand);
+            }
+        }
+
+    }
+}

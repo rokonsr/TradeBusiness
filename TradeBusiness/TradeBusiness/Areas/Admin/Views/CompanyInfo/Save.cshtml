@@ -1,0 +1,76 @@
+﻿@model TradeBusiness.Areas.Admin.Models.CompanyInfo
+@{
+    Layout = null;
+    // ViewBag.Title = "Create Company";
+}
+<h2>Save</h2>
+@using (Html.BeginForm("Save", "CompanyInfo", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.CompanyId > 0)
+    {
+        @Html.HiddenFor(b => b.CompanyId)
+    }
+    <div class="form-group">
+        @Html.LabelFor(a => a.CompanyName)
+        @Html.TextBoxFor(b => b.CompanyName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.CompanyName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.AdminUsername)
+
+        @Html.DropDownListFor(
+    x => x.AdminUserId,
+    new SelectList(Model.AdminUser, "AdminUserId", "AdminUsername"),
+    "-- Please select a category --", new { @class = "form-control" }
+)
+        @*<select class="form-control" name="AdminUserId">
+            @{
+                <option value="0">---Select Company---</option>
+                foreach (var admin in @ViewBag.adminUsername)
+                {
+                    <option value=@admin.AdminUserId>@admin.AdminUsername</option>
+                }
+            }
+        </select>*@
+        @Html.ValidationMessageFor(c => c.AdminUserId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Logo)
+        @Html.TextBoxFor(a => a.Logo, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Logo)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Address)
+        @Html.TextBoxFor(a => a.Address, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Address)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Phone)
+        @Html.TextBoxFor(a => a.Phone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Phone)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Fax)
+        @Html.TextBoxFor(a => a.Fax, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Fax)
+    </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.Email)
+            @Html.TextBoxFor(a => a.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.Email)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.TinCertificate)
+            @Html.TextBoxFor(a => a.TinCertificate, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.TinCertificate)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.VatRegNumber)
+            @Html.TextBoxFor(a => a.VatRegNumber, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.VatRegNumber)
+        </div>
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+                }
+

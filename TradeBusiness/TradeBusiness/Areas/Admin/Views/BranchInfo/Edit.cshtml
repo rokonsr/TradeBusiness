@@ -1,0 +1,74 @@
+﻿@model TradeBusiness.Areas.Admin.Models.BranchInfo
+@{
+    Layout = null;
+
+
+}
+
+<h3 style="color: red;">Edit Branch Information</h3>
+<hr />
+
+
+@using (Html.BeginForm("Edit", "BranchInfo", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.BranchId > 0)
+    {
+        @Html.HiddenFor(b => b.BranchId)
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.BranchName)
+        @Html.TextBoxFor(b => b.BranchName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.BranchName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.CompanyName)
+
+        @*@Html.DropDownListFor(c => c.CompanyId, new SelectList(@Viewbag.companyInfo, "CompanyId", "CompanyName"), "--Select Company--", new { @class = "form-control" })*@
+
+        <select class="form-control" id="CompanyId" name="CompanyId">
+            @{
+                <option value=@Model.CompanyId selected="selected">@Model.CompanyName</option>
+            }
+        </select>
+
+        @*@Html.DropDownList("CompanyId",ViewBag.branchInfo as SelectList)
+        @Html.DropDownList("companyId",ViewData["branchInfo"] as List<SelectListItem>)
+        @Html.DropDownListFor(x => x.CompanyId, new SelectList(, "Value", "Text"), "Select..")*@
+
+        
+
+        @Html.ValidationMessageFor(c => c.CompanyId)
+    </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.Address)
+            @Html.TextBoxFor(a => a.Address, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.Address)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.Phone)
+            @Html.TextBoxFor(a => a.Phone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.Phone)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.Fax)
+            @Html.TextBoxFor(a => a.Fax, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.Fax)
+        </div>
+            <div class="form-group">
+                @Html.LabelFor(a => a.Email)
+                @Html.TextBoxFor(a => a.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.Email)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(a => a.TradeLicense)
+                @Html.TextBoxFor(a => a.TradeLicense, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.TradeLicense)
+            </div>
+
+            <div>
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+                }

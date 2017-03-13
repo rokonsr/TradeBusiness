@@ -1,0 +1,289 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using TradeBusiness.Areas.Admin.Models;
+using TradeBusiness.DAL;
+using System.Data.SqlClient;
+using System.Data.Common;
+using System.Data;
+
+
+namespace TradeBusiness.BLL
+{
+    public class BranchInfoBLL
+    {
+        private IDataAccess objDataAccess;
+        private DbCommand objDbCommand;
+
+        private void BuildModelForBranchInfo(DbDataReader objDataReader, BranchInfo objBranchInfo)
+        {
+            DataTable objDataTable = objDataReader.GetSchemaTable();
+            foreach (DataRow dr in objDataTable.Rows)
+            {
+                String column = dr.ItemArray[0].ToString();
+                switch (column)
+                {
+                    case "BranchId":
+                        if (!Convert.IsDBNull(objDataReader["BranchId"]))
+                        {
+                            objBranchInfo.BranchId = Convert.ToInt16(objDataReader["BranchId"]);
+                        }
+                        break;
+                    case "BranchName":
+                        if (!Convert.IsDBNull(objDataReader["BranchName"]))
+                        {
+                            objBranchInfo.BranchName = objDataReader["BranchName"].ToString();
+                        }
+                        break;
+                    case "CompanyId":
+                        if (!Convert.IsDBNull(objDataReader["CompanyId"]))
+                        {
+                            objBranchInfo.CompanyId = Convert.ToInt16(objDataReader["CompanyId"]);
+                        }
+                        break;
+                    case "CompanyName":
+                        if (!Convert.IsDBNull(objDataReader["CompanyName"]))
+                        {
+                            objBranchInfo.CompanyName = objDataReader["CompanyName"].ToString();
+                        }
+                        break;
+                    case "Address":
+                        if (!Convert.IsDBNull(objDataReader["Address"]))
+                        {
+                            objBranchInfo.Address = objDataReader["Address"].ToString();
+                        }
+                        break;
+                    case "Phone":
+                        if (!Convert.IsDBNull(objDataReader["Phone"]))
+                        {
+                            objBranchInfo.Phone = objDataReader["Phone"].ToString();
+                        }
+                        break;
+                    case "Fax":
+                        if (!Convert.IsDBNull(objDataReader["Fax"]))
+                        {
+                            objBranchInfo.Fax = objDataReader["Fax"].ToString();
+                        }
+                        break;
+                    case "Email":
+                        if (!Convert.IsDBNull(objDataReader["Email"]))
+                        {
+                            objBranchInfo.Email = objDataReader["Email"].ToString();
+                        }
+                        break;
+                    case "TradeLicense":
+                        if (!Convert.IsDBNull(objDataReader["TradeLicense"]))
+                        {
+                            objBranchInfo.TradeLicense = objDataReader["TradeLicense"].ToString();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        public BranchInfo FindBranchInfo(int branchId)
+        {
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.ReadCommitted);
+            DbDataReader objDbDataReader = null;
+
+            BranchInfo objBranchInfo = new BranchInfo();
+
+            objDbCommand.AddInParameter("BranchId", branchId);
+
+            try
+            {
+                objDbDataReader = objDataAccess.ExecuteReader(objDbCommand, "[dbo].[uspFindBranchInfo]", CommandType.StoredProcedure);
+
+                if (objDbDataReader.HasRows)
+                {
+                    while (objDbDataReader.Read())
+                    {
+                        objBranchInfo.BranchId = Convert.ToInt16(objDbDataReader["BranchId"].ToString());
+                        objBranchInfo.BranchName = objDbDataReader["BranchName"].ToString();
+                        objBranchInfo.CompanyId = Convert.ToInt16(objDbDataReader["CompanyId"].ToString());
+                        objBranchInfo.CompanyName = objDbDataReader["CompanyName"].ToString();
+                        objBranchInfo.Address = objDbDataReader["Address"].ToString();
+                        objBranchInfo.Phone = objDbDataReader["Phone"].ToString();
+                        objBranchInfo.Fax = objDbDataReader["Fax"].ToString();
+
+                        objBranchInfo.Email = objDbDataReader["Email"].ToString();
+                        objBranchInfo.TradeLicense = objDbDataReader["TradeLicense"].ToString();
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error : " + ex.Message);
+            }
+            finally
+            {
+                if (objDbDataReader != null)
+                {
+                    objDbDataReader.Close();
+                }
+                objDataAccess.Dispose(objDbCommand);
+            }
+
+            return objBranchInfo;
+        }
+
+        internal string DeleteBranchInfo(int branchId)
+        {
+            int noRowCount = 0;
+
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.Serializable);
+            objDbCommand.AddInParameter("BranchId", branchId);
+
+            try
+            {
+                noRowCount = objDataAccess.ExecuteNonQuery(objDbCommand, "spDeleteBranchInfo", CommandType.StoredProcedure);
+
+                if (noRowCount > 0)
+                {
+                    objDbCommand.Transaction.Commit();
+                    return "Delete Successfully";
+                }
+                else
+                {
+                    objDbCommand.Transaction.Rollback();
+                    return "Delete Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                objDbCommand.Transaction.Rollback();
+                throw new Exception("Database Error Occured", ex);
+            }
+            finally
+            {
+                objDataAccess.Dispose(objDbCommand);
+            }
+        }
+
+        public List<BranchInfo> GetBranchInfo()
+        {
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.ReadCommitted);
+            DbDataReader objDbDataReader = null;
+            List<BranchInfo> objBranchInfoList = new List<BranchInfo>();
+            BranchInfo objBranchInfo;
+
+            try
+            {
+                objDbDataReader = objDataAccess.ExecuteReader(objDbCommand, "spGetBranchInfoList", CommandType.StoredProcedure);
+
+                if (objDbDataReader.HasRows)
+                {
+                    while (objDbDataReader.Read())
+                    {
+                        objBranchInfo = new BranchInfo();
+                        this.BuildModelForBranchInfo(objDbDataReader, objBranchInfo);
+                        objBranchInfoList.Add(objBranchInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error : " + ex.Message);
+            }
+            finally
+            {
+                if (objDbDataReader != null)
+                {
+                    objDbDataReader.Close();
+                }
+                objDataAccess.Dispose(objDbCommand);
+            }
+
+            return objBranchInfoList;
+        }
+
+        public string UpdateBranchInfo(BranchInfo objBranchInfo)
+        {
+            int noRowCount = 0;
+
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.Serializable);
+            objDbCommand.AddInParameter("BranchId", objBranchInfo.BranchId);
+            objDbCommand.AddInParameter("BranchName", objBranchInfo.BranchName);
+            objDbCommand.AddInParameter("CompanyId", objBranchInfo.CompanyId);
+            objDbCommand.AddInParameter("Address", objBranchInfo.Address);
+            objDbCommand.AddInParameter("Phone", objBranchInfo.Phone);
+            objDbCommand.AddInParameter("Fax", objBranchInfo.Fax);
+            objDbCommand.AddInParameter("Email", objBranchInfo.Email);
+            objDbCommand.AddInParameter("TradeLicense", objBranchInfo.TradeLicense);
+
+            try
+            {
+                noRowCount = objDataAccess.ExecuteNonQuery(objDbCommand, "spUpdateBranchInfo", CommandType.StoredProcedure);
+
+                if (noRowCount > 0)
+                {
+                    objDbCommand.Transaction.Commit();
+                    return "Save Successfully";
+                }
+                else
+                {
+                    objDbCommand.Transaction.Rollback();
+                    return "Save Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                objDbCommand.Transaction.Rollback();
+                throw new Exception("Database Error Occured", ex);
+            }
+            finally
+            {
+                objDataAccess.Dispose(objDbCommand);
+            }
+        }
+
+        public string SaveBranchInfo(BranchInfo objBranchInfo)
+        {
+            int noRowCount = 0;
+
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.Serializable);
+            objDbCommand.AddInParameter("BranchName", objBranchInfo.BranchName);
+            objDbCommand.AddInParameter("CompanyId", objBranchInfo.CompanyId);
+            objDbCommand.AddInParameter("Address", objBranchInfo.Address);
+            objDbCommand.AddInParameter("Phone", objBranchInfo.Phone);
+            objDbCommand.AddInParameter("Fax", objBranchInfo.Fax);
+            objDbCommand.AddInParameter("Email", objBranchInfo.Email);
+            objDbCommand.AddInParameter("TradeLicense", objBranchInfo.TradeLicense);
+
+            try
+            {
+                noRowCount = objDataAccess.ExecuteNonQuery(objDbCommand, "spCreateBranchInfo", CommandType.StoredProcedure);
+
+                if (noRowCount > 0)
+                {
+                    objDbCommand.Transaction.Commit();
+                    return "Save Successfully";
+                }
+                else
+                {
+                    objDbCommand.Transaction.Rollback();
+                    return "Save Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                objDbCommand.Transaction.Rollback();
+                throw new Exception("Database Error Occured", ex);
+            }
+            finally
+            {
+                objDataAccess.Dispose(objDbCommand);
+            }
+        }
+    }
+}

@@ -1,0 +1,67 @@
+﻿
+@model TradeBusiness.Areas.Admin.Models.BranchInfo
+@{
+    Layout = null;
+
+
+}
+
+<h3 style="color: red;">Are U Sure Want To Delete This !!!!!</h3>
+<hr />
+
+
+@using (Html.BeginForm("Delete", "BranchInfo", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.BranchId > 0)
+    {
+        @Html.HiddenFor(b => b.BranchId)
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.BranchName)
+        @Html.TextBoxFor(b => b.BranchName, new { @class = "form-control", @disabled = "disabled" })
+        @Html.ValidationMessageFor(b => b.BranchName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.CompanyName)
+        <select class="form-control" id="CompanyId" name="CompanyId">
+            @{
+                <option value="0">---Select Company---</option>
+                <option value=@Model.CompanyId selected="selected">@Model.CompanyName</option>
+            }
+        </select>
+
+        @Html.ValidationMessageFor(c => c.CompanyId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Address)
+        @Html.TextBoxFor(a => a.Address, new { @class = "form-control", @disabled = "disabled" })
+        @Html.ValidationMessageFor(a => a.Address)
+    </div>
+        <div class="form-group">
+            @Html.LabelFor(a => a.Phone)
+            @Html.TextBoxFor(a => a.Phone, new { @class = "form-control", @disabled = "disabled" })
+            @Html.ValidationMessageFor(a => a.Phone)
+        </div>
+        <div class="form-group">
+           @Html.LabelFor(a => a.Fax)
+            @Html.TextBoxFor(a => a.Fax, new { @class = "form-control", @disabled = "disabled" })
+            @Html.ValidationMessageFor(a => a.Fax)
+        </div>
+        <div class="form-group">
+           @Html.LabelFor(a => a.Email)
+            @Html.TextBoxFor(a => a.Email, new { @class = "form-control", @disabled = "disabled" })
+            @Html.ValidationMessageFor(a => a.Email)
+        </div>
+
+            <div class="form-group">
+                @Html.LabelFor(a => a.TradeLicense)
+                @Html.TextBoxFor(a => a.TradeLicense, new { @class = "form-control", @disabled = "disabled" })
+                @Html.ValidationMessageFor(a => a.TradeLicense)
+            </div>
+
+            <div>
+                <input type="submit" value="Delete" class="btn btn-primary" />
+            </div>
+                }

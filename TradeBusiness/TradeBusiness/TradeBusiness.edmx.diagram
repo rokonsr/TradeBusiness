@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="076e39972f17418f86594fb2ba2a5253" Name="Diagram1">
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Brand" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Category" Width="1.5" PointX="3" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.CompanyInfo" Width="1.5" PointX="3" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Customer" Width="1.5" PointX="3" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Designation" Width="1.5" PointX="3" PointY="32" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Employee" Width="1.5" PointX="8.25" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Measurement" Width="1.5" PointX="3" PointY="36" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.PriceType" Width="1.5" PointX="8.25" PointY="35" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Product" Width="1.5" PointX="5.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.ProductStock" Width="1.5" PointX="10.5" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Purchase" Width="1.5" PointX="5.25" PointY="35.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.PurchaseInvoiceFile" Width="1.5" PointX="3" PointY="41" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Sale" Width="1.5" PointX="5.25" PointY="25.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.Supplier" Width="1.5" PointX="3" PointY="46.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.UserInfo" Width="1.5" PointX="0.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TradeBusinessDbModel.SaleDetail" Width="1.5" PointX="7.5" PointY="23.875" IsExpanded="true" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Brand_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Brand_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Product_Brand" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Category_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Category_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Category_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Product_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_CompanyInfo_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_CompanyInfo_UserInfo2" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Customer_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Customer_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Sale_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Designation_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Designation_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Employee_Designation" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Employee_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Employee_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_UserInfo_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Measurement_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Measurement_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_ProductStock_Measurement1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_ProductStock_PriceType" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Product_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Product_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_ProductStock_Product1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_SaleDetail_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_ProductStock_ProductStock" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_ProductStock_ProductStock1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_ProductStock_Purchase1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_ProductStock_UserInfo2" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_ProductStock_UserInfo3" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Purchase_PurchaseInvoiceFile" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Purchase_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Purchase_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Purchase_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Sale_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Sale_UserInfo1" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_SaleDetail_Sale" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Supplier_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="TradeBusinessDbModel.FK_Supplier_UserInfo1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

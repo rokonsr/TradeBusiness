@@ -1,0 +1,90 @@
+﻿@model TradeBusiness.SaleDetail
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>SaleDetail</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.SaleDetailId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SaleDetailId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SaleDetailId, new { htmlAttributes = new { @class = "form-control", data_val = "true", data_val_length = " Atleast 1 char", data_val_length_min = "1", data_val_required = "Sell detail id  field is required.", placeholder = "Sale Details" } })
+                @Html.ValidationMessageFor(model => model.SaleDetailId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SaleId, "SaleId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("SaleId", null, htmlAttributes: new { @class = "form-control", data_val = "true", data_val_length = " Atleast 1 char", data_val_length_min = "1", data_val_required = "The Sale field is required.", placeholder = "Sale" })
+                @Html.ValidationMessageFor(model => model.SaleId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductId, "ProductId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("ProductId", null, htmlAttributes: new { @class = "form-control", data_val = "true", data_val_length = " Atleast 1 char", data_val_length_min = "1", data_val_required = "The Product field is required.", placeholder = "Product Name" })
+                @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SellQuantity, "SellQuantity", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SellQuantity, new { htmlAttributes = new { @class = "form-control", data_val = "true", data_val_length = " Atleast 1 char", data_val_length_min = "1", data_val_required = "The Sell Quantity field is required.", placeholder = "Sell Quantity" } })
+                @Html.ValidationMessageFor(model => model.SellQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.VatRate, "VatRate", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.VatRate, new { htmlAttributes = new { @class = "form-control", data_val = "true", data_val_length = " Atleast 1 char", data_val_length_min = "1", placeholder = "VAT" } })
+                @Html.ValidationMessageFor(model => model.VatRate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SellPrice, "SellPrice", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SellPrice, new { htmlAttributes = new { @class = "form-control", data_val = "true", data_val_length = " Atleast 1 char", data_val_length_min = "1", data_val_required = "The Sell price field is required.", placeholder = "Sell Price" } })
+                @Html.ValidationMessageFor(model => model.SellPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DiscountRate, "DiscountRate", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DiscountRate, new { htmlAttributes = new { @class = "form-control", data_val = "true", data_val_length = " Atleast 1 char", data_val_length_min = "1", placeholder = "Discount Rate" } })
+                @Html.ValidationMessageFor(model => model.DiscountRate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

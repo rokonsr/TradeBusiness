@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using TradeBusiness.BLL;
+using TradeBusiness.Areas.Admin.Models;
+
+
+namespace TradeBusiness.Areas.Admin.Controllers
+{
+    // created by shovon
+    public class BranchInfoController : Controller
+    {
+        // GET: Admin/BranchInfo
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult GetBranchInfo()
+        {
+            BranchInfoBLL objBranchInfoBLL = new BranchInfoBLL();
+            var branchList = objBranchInfoBLL.GetBranchInfo();
+              return Json(new { data = branchList }, JsonRequestBehavior.AllowGet);
+
+        }
+       
+        public ActionResult Save()
+        {
+            BranchInfoBLL objBranchInfoBLL = new BranchInfoBLL();
+
+            ViewBag.companyList = objBranchInfoBLL.GetBranchInfo();
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Save( BranchInfo objBranchInfo)
+        {
+
+            //if (ModelState.IsValid)
+            //{
+                BranchInfoBLL objBranchInfoBLL = new BranchInfoBLL();
+
+            // Edit
+
+                if (objBranchInfo.BranchId > 0)
+                {
+                    objBranchInfoBLL.UpdateBranchInfo(objBranchInfo);
+                }
+                else
+                {
+                    objBranchInfoBLL.SaveBranchInfo(objBranchInfo);
+                }
+          // }
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            BranchInfoBLL objBranchInfoBLL = new BranchInfoBLL();
+            var branchInfo = objBranchInfoBLL.FindBranchInfo(id);
+            return View(branchInfo);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult DeleteBranch(int id)
+        {
+            BranchInfoBLL objBranchInfoBLL = new BranchInfoBLL();
+            objBranchInfoBLL.DeleteBranchInfo(id);
+
+            return RedirectToAction("Index");
+        }
+
+
+    }
+}

@@ -1,0 +1,106 @@
+﻿using System.Linq;
+using System.Web.Mvc;
+using System.Web.Security;
+using TradeBusiness.Areas.Admin.BLL;
+using TradeBusiness.Areas.Admin.Models;
+
+namespace TradeBusiness.Areas.Admin.Controllers
+{
+    //crated by ataur
+    public class AdminUserController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult GetAdminUser()
+        {
+            AdminUserBLL objAdminUserBll = new AdminUserBLL();
+
+            var list = objAdminUserBll.GetAllAdminUser().ToList();
+
+            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Save()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Save(AdminUser objAdminUser)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                AdminUserBLL objAdminUserBll = new AdminUserBLL();
+
+                objAdminUserBll.CreateAdminUser(objAdminUser);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            AdminUserPartialBLL objAdminUserPartialBll = new AdminUserPartialBLL();
+            var adminUser = objAdminUserPartialBll.GetAdminUser(id);
+            return View(adminUser);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(AdminUserPartial objAdminUserPartial)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                AdminUserPartialBLL objAdminUserPartialBll = new AdminUserPartialBLL();
+
+                objAdminUserPartialBll.UpdateAdminUser(objAdminUserPartial);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            AdminUserPartialBLL objAdminUserPartialBll = new AdminUserPartialBLL();
+            var adminUser = objAdminUserPartialBll.GetAdminUser(id);
+            return View(adminUser);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult DeleteAdminUser(int id)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                AdminUserPartialBLL objAdminUserPartialBll = new AdminUserPartialBLL();
+                objAdminUserPartialBll.DeleteAdminUser(id);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        public ActionResult Logout()
+        {
+            if (Request.Cookies[FormsAuthentication.FormsCookieName] != null)
+            {
+                FormsAuthentication.SignOut();
+            }
+
+            return Redirect("~/UserLogin/Login");
+        }
+    }
+}

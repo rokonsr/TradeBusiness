@@ -1,0 +1,101 @@
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using TradeBusiness.Areas.Admin.BLL;
+using TradeBusiness.Areas.Admin.Models;
+
+namespace TradeBusiness.Areas.Admin.Controllers
+{
+    // created by Shahadat
+    public class CompanyInfoController : Controller
+    {
+        // GET: Admin/CompanyInfo
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult GetCompanyInfo()
+        {
+            CompanyInfoBLL objCompanyInfoBLL = new CompanyInfoBLL();
+            var CompanyList = objCompanyInfoBLL.GetCompanyInfo();
+            return Json(new { data = CompanyList }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpGet]
+        public ActionResult Save()
+        {
+            CompanyInfoBLL objCompanyInfoBLL = new CompanyInfoBLL();
+            var model = new CompanyInfo
+            {
+                AdminUser = objCompanyInfoBLL.GetAdminUserName()
+            };
+             return View(model);
+            //List<AdminUser> adminUsernameList = objCompanyInfoBLL.GetAdminUserName();
+            //ViewBag.adminUsername = adminUsernameList;
+            //return View();
+        }
+
+        [HttpPost]
+        public ActionResult Save(CompanyInfo objCompanyInfo)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                CompanyInfoBLL objCompanyInfoBLL = new CompanyInfoBLL();
+
+                objCompanyInfoBLL.SaveCompanyInfo(objCompanyInfo);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            CompanyInfoBLL objCompanyInfoBLL = new CompanyInfoBLL();
+            var companyInfo = objCompanyInfoBLL.GetCompanyInfo(id);
+            return View(companyInfo);
+        }
+        [HttpPost]
+        public ActionResult Edit(CompanyInfo objCompanyInfo)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                CompanyInfoBLL objCompanyInfoBLL = new CompanyInfoBLL();
+
+                objCompanyInfoBLL.UpdateCompanyInfo(objCompanyInfo);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            CompanyInfoBLL objCompanyInfoBLL = new CompanyInfoBLL();
+            var companyInfo = objCompanyInfoBLL.GetCompanyInfo(id);
+            return View(companyInfo);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult DeleteCompanyInfo(int id)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                CompanyInfoBLL objCompanyInfoBLL = new CompanyInfoBLL();
+                objCompanyInfoBLL.DeleteCompanyInfo(id);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+    }
+}

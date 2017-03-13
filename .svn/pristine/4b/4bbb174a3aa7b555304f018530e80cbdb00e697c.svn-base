@@ -1,0 +1,50 @@
+﻿using System.Linq;
+using System.Web.Mvc;
+using TradeBusiness.Areas.Admin.Models;
+using TradeBusiness.BLL;
+
+namespace TradeBusiness.Areas.Admin.Controllers
+{
+    //crated by ataur
+    public class AdminUserController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+
+        public ActionResult GetAdminUser()
+        {
+            AdminUserBLL objAdminUserBll = new AdminUserBLL();
+
+            var list = objAdminUserBll.GetAllAdminUser().ToList();
+            return Json(new { data = list }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Save()
+        {
+            return View();
+        }
+           
+        [HttpPost]
+        public ActionResult Save(AdminUser objAdminUser)
+        {
+            if (ModelState.IsValid)
+            {
+                AdminUserBLL objAdminUserBll=new AdminUserBLL();
+
+                if (objAdminUser.AdminUserId > 0)
+                {
+                    objAdminUserBll.UpdateAdminUser(objAdminUser);
+                }
+                else
+                {
+                    objAdminUserBll.CreateAdminUser(objAdminUser);
+                }
+            }
+            return RedirectToAction("Index");
+        }
+    }
+}

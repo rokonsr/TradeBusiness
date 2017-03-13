@@ -1,0 +1,48 @@
+﻿@model TradeBusiness.Areas.Admin.Models.BranchInfo
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Delete", "BranchInfo", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.BranchId)
+    <div class="form-group">
+        <label>Branch Name</label>
+        <p>@Model.BranchName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Company Name</label>
+        <p>@Model.CompanyName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Address</label>
+        <p>@Model.Address</p>
+    </div>
+
+    <div class="form-group">
+        <label>Phone</label>
+        <p>@Model.Phone</p>
+    </div>
+
+    <div class="form-group">
+        <label>Fax</label>
+        <p>@Model.Fax</p>
+    </div>
+
+    <div class="form-group">
+        <label>Email</label>
+        <p>@Model.Email</p>
+    </div>
+
+    <div class="form-group">
+        <label>Trade License</label>
+        <p>@Model.TradeLicense</p>
+    </div>
+
+
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+}

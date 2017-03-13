@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Linq;
+using System.Web;
+using TradeBusiness.DAL;
+using TradeBusiness.Models;
+
+namespace TradeBusiness.BLL
+{
+    public class UserLoginBLL
+    {
+
+        private IDataAccess objDataAccess;
+        private DbCommand objDbCommand;
+        public UserLogin IsValid(string adminUserName, string adminPassword)
+        {
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.ReadCommitted);
+            DbDataReader objDbDataReader = null;
+            UserLogin objLoginUser = null;
+            objDbCommand.AddInParameter("AdminUsername", adminUserName);
+            objDbCommand.AddInParameter("AdminPassword", adminPassword);
+            try
+            {
+                objDbDataReader = objDataAccess.ExecuteReader(objDbCommand, "[dbo].[uspCheckUser]", CommandType.StoredProcedure);
+                if (objDbDataReader.HasRows)
+                {
+                    while (objDbDataReader.Read())
+                    {
+                        objLoginUser = new UserLogin();
+                        //this.BuildModelForUserInfo(objDbDataReader, objLoginUser);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error : " + ex.Message);
+            }
+            finally
+            {
+                if (objDbDataReader != null)
+                {
+                    objDbDataReader.Close();
+                }
+                objDataAccess.Dispose(objDbCommand);
+            }
+
+            return objLoginUser;
+        }
+    }
+}

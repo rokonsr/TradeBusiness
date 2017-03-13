@@ -1,0 +1,160 @@
+﻿@model TradeBusiness.Models.UserLogin
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page | Nifty - </title>
+
+    <!--STYLESHEET-->
+    <!--=================================================-->
+    <!--Open Sans Font [ OPTIONAL ] -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet">
+
+
+    <!--Bootstrap Stylesheet [ REQUIRED ]-->
+
+
+    <link href="~/Theme/css/bootstrap.min.css" rel="stylesheet" />
+
+
+    <!--Nifty Stylesheet [ REQUIRED ]-->
+
+    <link href="~/Theme/css/nifty.min.css" rel="stylesheet" />
+
+
+    <!--Font Awesome [ OPTIONAL ]-->
+
+    <link href="~/Theme/css/font-awesome.min.css" rel="stylesheet" />
+
+
+    <!--Demo [ DEMONSTRATION ]-->
+    @*<link href="~/Theme/css/nifty-demo.css" rel="stylesheet" />*@
+
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+</head>
+
+<!--TIPS-->
+<!--You may remove all ID or Class names which contain "demo-", they are only used for demonstration. -->
+
+<body>
+    
+    <div id="container" class="cls-container">
+   
+        <!-- BACKGROUND IMAGE -->
+        <!--===================================================-->
+
+        <div id="bg-overlay"></div>
+
+
+        <!-- HEADER -->
+        <!--===================================================-->
+        <div class="cls-header cls-header-lg">
+            <div class="cls-brand">
+                <a class="box-inline">
+                    <!-- <img alt="Nifty Admin" src="img/logo.png" class="brand-icon"> -->
+                    <span class="brand-title">Trade Business</span>
+                </a>
+            </div>
+        </div>
+        <!--===================================================-->
+        <!-- LOGIN FORM -->
+        <!--===================================================-->
+        <div class="cls-content">
+            <div class="cls-content-sm panel">
+                <div class="panel-body">
+                    <p class="pad-btm">Sign In to your account</p>
+
+                    @ViewBag.m
+                    @using (Html.BeginForm("Login", "UserLogin", FormMethod.Post))
+                    {
+                        @Html.ValidationSummary(true, "Login failed. Check your login details.");
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                @*<input type="text" class="form-control" placeholder="Username">*@
+                                @Html.TextBoxFor(u => u.AdminUsername, new { @class = "form-control", @placeholder = "Username" })
+                                @Html.ValidationMessageFor(u => u.AdminUsername)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-asterisk"></i></div>
+                                @*<input type="password" class="form-control" placeholder="Password">*@
+                                @Html.PasswordFor(u => u.AdminPassword, new { @class = "form-control", @placeholder = "Password" })
+                                @Html.ValidationMessageFor(u => u.AdminPassword)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 text-left checkbox">
+                                <label class="form-checkbox form-icon">
+                                    <input type="checkbox"> Remember me
+                                </label>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group text-right">
+                                    <button class="btn btn-success text-uppercase" type="submit">Sign In</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    }
+
+
+
+                </div>
+            </div>
+            <div class="pad-ver">
+                <a href="pages-password-reminder.html" class="btn-link mar-rgt">Forgot password ?</a>
+            </div>
+        </div>
+        <!--===================================================-->
+        <!-- DEMO PURPOSE ONLY -->
+        <!--===================================================-->
+        <!--===================================================-->
+
+
+
+    </div>
+       
+    <!--===================================================-->
+    <!-- END OF CONTAINER -->
+    <!--JAVASCRIPT-->
+    <!--=================================================-->
+    <!--jQuery [ REQUIRED ]-->
+
+    <script src="~/Theme/js/jquery-2.1.1.min.js"></script>
+
+
+    <!--BootstrapJS [ RECOMMENDED ]-->
+
+    <script src="~/Theme/js/bootstrap.min.js"></script>
+
+
+    <!--Fast Click [ OPTIONAL ]-->
+
+    <script src="~/Theme/js/fastclick.min.js"></script>
+
+
+    <!--Nifty Admin [ RECOMMENDED ]-->
+
+    <script src="~/Theme/js/nifty.js"></script>
+
+    <!--Background Image [ DEMONSTRATION ]-->
+    @*<script src="~/Theme/js/bg-images.js"></script>*@
+
+
+
+
+</body>
+</html>
+

@@ -1,0 +1,105 @@
+﻿using System;
+using System.Web.Mvc;
+using TradeBusiness.Areas.Admin.BLL;
+using TradeBusiness.Areas.Admin.Models;
+
+
+namespace TradeBusiness.Areas.Admin.Controllers
+{
+    // created by shovon
+    [Authorize]
+    public class BranchInfoController : Controller
+    {
+        // GET: Admin/BranchInfo
+        public ActionResult Index()
+        {
+            
+            return View();
+        }
+
+        public ActionResult GetAllBranchInfo()
+        {
+            BranchInfoBLL objBranchInfoBLL = new BranchInfoBLL();
+            var branchList = objBranchInfoBLL.GetAllBranchInfo();
+              return Json(new { data = branchList }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        [HttpGet]
+        public ActionResult Save()
+        {
+            BranchInfoBLL objBranchInfoBLL = new BranchInfoBLL();
+            ViewBag.CompanyId = new SelectList(objBranchInfoBLL.GetCompanyName(), "CompanyId", "CompanyName");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Save(BranchInfo objBranchInfo)
+        {
+            bool status = false;
+
+            objBranchInfo.CompanyId = Convert.ToInt16(Request.Form["CompanyId"]);
+
+            if (ModelState.IsValid)
+            {
+                BranchInfoBLL objBranchInfoBll = new BranchInfoBLL();
+
+                objBranchInfoBll.SaveBranchInfo(objBranchInfo);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            BranchInfoBLL objBranchInfoBll = new BranchInfoBLL();
+            var branchInfo = objBranchInfoBll.GetBranchInfo(id);
+            return View(branchInfo);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(BranchInfo objBranchInfo)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                BranchInfoBLL objBranchInfoBll = new BranchInfoBLL();
+
+                objBranchInfoBll.UpdateBranchInfo(objBranchInfo);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            BranchInfoBLL objBranchInfoBll = new BranchInfoBLL();
+            var branchInfo = objBranchInfoBll.GetBranchInfo(id);
+            return View(branchInfo);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult DeleteBranchInfo(int id)
+        {
+            bool status = false;
+
+            if (ModelState.IsValid)
+            {
+                BranchInfoBLL objBranchInfoBll = new BranchInfoBLL();
+                objBranchInfoBll.DeleteBranchInfo(id);
+
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+
+    }
+}

@@ -1,0 +1,53 @@
+﻿@model TradeBusiness.Areas.Admin.Models.UserInfo
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Save", "UserInfo", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.UserId > 0)
+    {
+        @Html.HiddenFor(ui => ui.UserId)
+    }
+
+    <div class="form-group">
+        <label>Username</label>
+        @Html.TextBoxFor(ui => ui.Username, new { @class = "form-control" })
+        @Html.ValidationMessageFor(ui => ui.Username)
+    </div>
+
+    <div class="form-group">
+        <label>Password</label>
+        @Html.TextBoxFor(ui => ui.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(ui => ui.Password)
+    </div>
+
+    <div class="form-group">
+        <label>Confirm Password</label>
+        @Html.TextBoxFor(ui => ui.ConfirmPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(ui => ui.ConfirmPassword)
+    </div>
+
+    <div class="form-group">
+        <label>Branch Name</label>
+
+        @*@Html.DropDownListFor(c => c.CompanyId, new SelectList(@Viewbag.companyInfo, "CompanyId", "CompanyName"), "--Select Company--", new { @class = "form-control" })*@
+        <select class="form-control" id="BranchId" name="BranchId">
+            @{
+                <option value="0">---Select Branch---</option>
+
+                foreach (var branch in @ViewBag.BranchNames)
+                {
+                    <option value=@branch.BranchId> @branch.BranchName</option>
+                }
+            }
+        </select>
+
+        @Html.ValidationMessageFor(ui => ui.BranchId)
+    </div>
+
+    <div>
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+}

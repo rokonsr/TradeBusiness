@@ -1,0 +1,70 @@
+﻿@model TradeBusiness.Areas.Admin.Models.UserInfoPartial
+
+@{
+    Layout = null;
+}
+
+
+<h3 style="color: red;">Are you sure to delete below details ?</h3>
+<hr />
+
+@using (Html.BeginForm("Delete", "UserInfo", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.UserId > 0)
+    {
+        @Html.HiddenFor(ui => ui.UserId)
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(ui => ui.Username)
+        @Html.TextBoxFor(ui => ui.Username, new { @class = "form-control", @disabled = "disabled" })
+        @Html.ValidationMessageFor(ui => ui.Username)
+    </div>
+
+    <div class="form-group" id="Test">
+        @Html.LabelFor(ui => ui.BranchName)
+
+        <select class="form-control" id="BranchId" name="BranchId" disabled="disabled">
+            @{
+                foreach (var branch in @ViewBag.BranchNames)
+                {
+                    if (@branch.BranchId == @Model.BranchId)
+                    {
+                        <option value=@branch.BranchId selected="selected"> @branch.BranchName</option>
+                    }
+                    else
+                    {
+                        <option value=@branch.BranchId> @branch.BranchName</option>
+                    }
+
+                }
+            }
+        </select>
+
+        @Html.ValidationMessageFor(ui => ui.BranchId)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(ui => ui.IsActive)
+        @if (!@Model.IsActive.Equals(true))
+        {
+            <select class="form-control" id="IsActive" name="IsActive" disabled="disabled">
+                <option value="true">Active</option>
+                <option value="false" selected="selected">Inactive</option>
+            </select>
+        }
+        else
+        {
+            <select class="form-control" id="IsActive" name="IsActive" disabled="disabled">
+                <option value="true" selected="selected">Active</option>
+                <option value="false">Inactive</option>
+            </select>
+        }
+    </div>
+
+    <div>
+        <input type="submit" value="Delete" class="btn btn-danger"/>
+    </div>
+    
+ }
+

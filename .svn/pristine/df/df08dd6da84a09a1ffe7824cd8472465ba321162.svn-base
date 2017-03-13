@@ -1,0 +1,146 @@
+﻿@model TradeBusiness.Sale
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Sale</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.InvoiceNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvoiceNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VatAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VatAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdjustmentAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdjustmentAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiscountRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiscountRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiscountAmountTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiscountAmountTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaidAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaidAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentMethod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentMethod)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>*@
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SortedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SortedBy)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.CustomerUsername)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.CustomerUsername)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.UserInfo.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserInfo.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserInfo1.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserInfo1.Username)
+        </dd>*@
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SaleId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

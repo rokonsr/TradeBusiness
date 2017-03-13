@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using TradeBusiness.BLL;
+
+
+namespace TradeBusiness.Areas.Admin.Controllers
+{
+    public class BranchInfoController : Controller
+    {
+        // GET: Admin/BranchInfo
+        public ActionResult Index()
+        {
+
+            return View();
+        }
+
+        public ActionResult GetBranchInfo()
+        {
+            BranchInfoBLL objBranchInfoBLL = new BranchInfoBLL();
+            var branchList = objBranchInfoBLL.GetBranchInfo();
+            return Json(new { data = branchList }, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+    }
+}

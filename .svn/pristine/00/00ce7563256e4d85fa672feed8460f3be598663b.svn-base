@@ -1,0 +1,129 @@
+﻿@model IEnumerable<TradeBusiness.Supplier>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierContactPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierContactNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierReference)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierReferenceContactNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TINCertificate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VatRegistration)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SortedBy)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.UserInfo.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserInfo1.Username)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierContactPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierContactNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierReference)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierReferenceContactNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TINCertificate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VatRegistration)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SortedBy)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.UserInfo.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserInfo1.Username)
+        </td>*@
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SupplierId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SupplierId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SupplierId })
+        </td>
+    </tr>
+}
+
+</table>

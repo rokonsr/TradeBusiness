@@ -1,0 +1,98 @@
+﻿using System;
+using System.Data;
+using System.Data.Common;
+using System.Security.Cryptography;
+using System.Text;
+using TradeBusiness.DAL;
+using TradeBusiness.Models;
+
+namespace TradeBusiness.BLL
+{
+    public class UserLoginBLL
+    {
+
+        private IDataAccess objDataAccess;
+        private DbCommand objDbCommand;
+
+        private void BuildModelForUserLogin(DbDataReader objDataReader, UserLogin objUserLogin)
+        {
+            DataTable objDataTable = objDataReader.GetSchemaTable();
+            foreach (DataRow dr in objDataTable.Rows)
+            {
+                String column = dr.ItemArray[0].ToString();
+                switch (column)
+                {
+                    case "AdminUserId":
+                        if (!Convert.IsDBNull(objDataReader["AdminUserId"]))
+                        {
+                            objUserLogin.AdminUserId = Convert.ToInt32(objDataReader["AdminUserId"].ToString());
+                        }
+                        break;
+                    case "AdminUsername":
+                        if (!Convert.IsDBNull(objDataReader["AdminUsername"]))
+                        {
+                            objUserLogin.AdminUsername = objDataReader["AdminUsername"].ToString();
+                        }
+                        break;
+                    case "AdminPassword":
+                        if (!Convert.IsDBNull(objDataReader["AdminPassword"]))
+                        {
+                            objUserLogin.AdminPassword = objDataReader["AdminPassword"].ToString();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        public UserLogin IsValid(UserLogin objUserLogin)
+        {
+            objDataAccess = DataAccess.NewDataAccess();
+            objDbCommand = objDataAccess.GetCommand(true, IsolationLevel.ReadCommitted);
+            DbDataReader objDbDataReader = null;
+            UserLogin objLoginUser = null;
+            objDbCommand.AddInParameter("AdminUsername", objUserLogin.AdminUsername);
+            objDbCommand.AddInParameter("AdminPassword", SHA512PasswordGenerator(objUserLogin.AdminPassword));
+            try
+            {
+                objDbDataReader = objDataAccess.ExecuteReader(objDbCommand, "[dbo].[uspCheckUser]", CommandType.StoredProcedure);
+                if (objDbDataReader.HasRows)
+                {
+                    while (objDbDataReader.Read())
+                    {
+                        objLoginUser = new UserLogin();
+                        this.BuildModelForUserLogin(objDbDataReader, objLoginUser);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error : " + ex.Message);
+            }
+            finally
+            {
+                if (objDbDataReader != null)
+                {
+                    objDbDataReader.Close();
+                }
+                objDataAccess.Dispose(objDbCommand);
+            }
+
+            return objLoginUser;
+        }
+
+        private string SHA512PasswordGenerator(string strInput)
+        {
+            SHA512 sha512 = new SHA512CryptoServiceProvider();
+            byte[] arrHash = sha512.ComputeHash(Encoding.UTF8.GetBytes(strInput));
+            StringBuilder sbHash = new StringBuilder();
+            for (int i = 0; i < arrHash.Length; i++)
+            {
+                sbHash.Append(arrHash[i].ToString("x2"));
+            }
+            return sbHash.ToString();
+        }
+    }
+}

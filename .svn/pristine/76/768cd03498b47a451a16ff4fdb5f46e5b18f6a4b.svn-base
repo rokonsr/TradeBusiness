@@ -1,0 +1,66 @@
+﻿@model TradeBusiness.Areas.Admin.Models.AdminUser
+
+@{
+    Layout = null;
+}
+
+@using (Html.BeginForm("Save", "AdminUser", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.AdminUserId > 0)
+    {
+        @Html.HiddenFor(au => au.AdminUserId)
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.AdminUsername)
+        @Html.TextBoxFor(au => au.AdminUsername, new { @class = "form-control" })
+        @Html.ValidationMessageFor(au => au.AdminUsername)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.AdminPassword)
+        @Html.TextBoxFor(au => au.AdminPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(au => au.AdminPassword)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.ConfirmPassword)
+        @Html.TextBoxFor(au => au.ConfirmPassword, new { @class = "form-control" })
+        @Html.ValidationMessageFor(au => au.ConfirmPassword)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.UserRole)
+        @*@Html.TextBoxFor(au => au.UserRole, new { @class = "form-control" })
+            @Html.ValidationMessageFor(au => au.UserRole)*@
+        @Html.DropDownListFor(au => au.UserRole,
+                  new List<SelectListItem> {
+                       new SelectListItem { Value = "0" , Text = "-Select Role-" },
+                       new SelectListItem { Value = "1" , Text = "Super Admin" },
+                       new SelectListItem { Value = "2" , Text = "Admin" }
+                    },
+                  new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.EmailAddress)
+        @Html.TextBoxFor(au => au.EmailAddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(au => au.EmailAddress)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.MaxCompany)
+        @Html.TextBoxFor(au => au.MaxCompany, new { @class = "form-control" })
+        @Html.ValidationMessageFor(au => au.MaxCompany)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.MaxBranch)
+        @Html.TextBoxFor(au => au.MaxBranch, new { @class = "form-control" })
+        @Html.ValidationMessageFor(au => au.MaxBranch)
+    </div>
+
+    <div>
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+}

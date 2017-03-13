@@ -1,0 +1,58 @@
+﻿@model TradeBusiness.Areas.Admin.Models.BranchInfo
+
+@{
+    Layout = null;
+
+
+}
+
+<h2>Save</h2>
+@using (Html.BeginForm("Save", "BranchInfo", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.BranchId > 0)
+    {
+        @Html.HiddenFor(b => b.BranchId)
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.BranchName)
+        @Html.TextBoxFor(b => b.BranchName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(b => b.BranchName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.CompanyName)
+        @Html.DropDownList("CompanyId", null, "--Select Company--", new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.CompanyId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Address)
+        @Html.TextBoxFor(a => a.Address, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Address)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Phone)
+        @Html.TextBoxFor(a => a.Phone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Phone)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Fax)
+        @Html.TextBoxFor(a => a.Fax, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Fax)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(a => a.Email)
+        @Html.TextBoxFor(a => a.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Email)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(a => a.TradeLicense)
+        @Html.TextBoxFor(a => a.TradeLicense, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.TradeLicense)
+    </div>
+
+    <div>
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+}

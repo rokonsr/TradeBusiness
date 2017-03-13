@@ -1,0 +1,131 @@
+﻿@model IEnumerable<TradeBusiness.CompanyInfo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyLogo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyFax)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TradeLicense)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TINCertificate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BSTIApproval)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VATRegNumber)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SortedBy)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.UserInfo.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserInfo1.Username)
+        </th>*@
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyName)
+        </td>
+        <td>
+
+            <img src="@Url.Action("ImageShow", "CompanyInfoes", new {CompanyId = item.CompanyId})" width="80" height="80" />
+            
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyFax)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TradeLicense)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TINCertificate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BSTIApproval)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VATRegNumber)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SortedBy)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Remarks)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.UserInfo.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserInfo1.Username)
+        </td>*@
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CompanyId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CompanyId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CompanyId })
+        </td>
+    </tr>
+}
+
+</table>

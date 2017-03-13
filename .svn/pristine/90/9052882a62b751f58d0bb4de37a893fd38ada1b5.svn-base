@@ -1,0 +1,116 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    span.field-validation-error {
+        color: red;
+    }
+</style>
+<div style="width:90%; margin:0 auto" class="tablecontainer">
+    <a class="popup btn btn-primary" href="/Admin/CompanyInfo/Save/0" style="margin-bottom:20px; margin-top:20px;">Add New Company</a>
+    <table id="companyDatatable">
+        <thead>
+            <tr>
+                <th>Company Name</th>
+                <th>Admin User Name</th>
+                <th>Logo</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Fax</th>
+                <th>Email</th>
+                <th>Tin Certificate</th>
+                <th>Vat RegNumber</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var oTable = $('#companyDatatable')
+            .DataTable({
+                "ajax": {
+                    "url": '/CompanyInfo/GetCompanyInfo',
+                    "type": "get",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "CompanyName", "autoWidth": true },
+                    { "data": "AdminUsername", "autoWidth": true },
+                    { "data": "Logo", "autoWidth": true },
+                    { "data": "Address", "autoWidth": true },
+                    { "data": "Phone", "autoWidth": true },
+                    { "data": "Fax", "autoWidth": true },
+                    { "data": "Email", "autoWidth": true },
+                    { "data": "TinCertificate", "autoWidth": true },
+                    { "data": "VatRegNumber", "autoWidth": true },
+                    {
+                        "data": "CompanyId",
+                        "width": "50px",
+                        "render": function (data) {
+                            return '<a class="popup" href="/Admin/CompanyInfo/Edit/' + data + '">Edit</a>';
+                        }
+                    },
+                    {
+                        "data": "CompanyId",
+                        "width": "50px",
+                        "render": function (data) {
+                            return '<a class="popup" href="/Admin/CompanyInfo/Delete/' + data + '">Delete</a>';
+                        }
+                    }
+                ]
+            });
+        $('.tablecontainer').on('click', 'a.popup', function (e) {
+            e.preventDefault();
+            OpenPopup($(this).attr('href'));
+        })
+        function OpenPopup(pageUrl) {
+            var $pageContent = $('<div/>');
+            $pageContent.load(pageUrl, function () {
+                $('#popupForm', $pageContent).removeData('validator');
+                $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                $.validator.unobtrusive.parse('form');
+
+
+            });
+
+
+            $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
+                .html($pageContent)
+                .dialog({
+                    draggable: false,
+                    autoOpen: false,
+                    resizable: false,
+                    model: true,
+                    title: 'Popup Dialog',
+                    height: 525,
+                    width: 600,
+                    close: function () {
+                        $dialog.dialog('destroy').remove();
+                    }
+                });
+
+            $('.popupWindow').on('submit', '#popupForm', function (e) {
+                var url = $('#popupForm')[0].action;
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#popupForm').serialize(),
+                    success: function (data) {
+                        if (data.status) {
+                            $dialog.dialog('close');
+                            oTable.ajax.reload();
+                        }
+                    }
+                });
+
+                e.preventDefault();
+            });
+
+            $dialog.dialog('open');
+        }
+    })
+</script>
